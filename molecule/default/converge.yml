@@ -4,7 +4,7 @@
   vars:
     pass_user: testing
     pass_user_group: testing
-    pass_repo: "/pass-store.git"
+    pass_repo: "/tmp/pass-store.git"
     gpg_user: "{{ pass_user }}"
     gpg_backup_key: "backup.gpg"
   pre_tasks:
