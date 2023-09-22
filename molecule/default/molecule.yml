@@ -14,6 +14,7 @@ platforms:
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      # - ${MOLECULE_SCENARIO_DIRECTORY}/pass-store.git:/pass-store.git:rw
 
 provisioner:
   name: ansible

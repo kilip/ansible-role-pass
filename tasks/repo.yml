@@ -1,0 +1,16 @@
+---
+- name: Ensure passwordstore repo cloned
+  ansible.builtin.git:
+    repo: "{{ pass_repo }}"
+    dest: "{{ pass_home }}"
+    clone: true
+  become: true
+  become_user: "{{ pass_user }}"
+
+- name: Ensure auto push configured
+  ansible.builtin.copy:
+    src: post-commit
+    dest: "{{ pass_home }}/.git/hooks/post-commit"
+    mode: "0775"
+    owner: "{{ pass_user }}"
+    group: "{{ pass_user_group }}"

@@ -1,2 +1,10 @@
 ---
-# tasks file for pass
+- name: Ensure repo task included
+  ansible.builtin.include_tasks:
+    file: repo.yml
+  when: pass_repo != ""
+
+- name: Ensure pass package installed
+  ansible.builtin.package:
+    name: "{{ pass_package_name }}"
+    state: present

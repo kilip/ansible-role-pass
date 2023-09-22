@@ -1,5 +1,45 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    pass_user: testing
+    pass_user_group: testing
+    pass_repo: "/pass-store.git"
+    gpg_user: "{{ pass_user }}"
+    gpg_backup_key: "backup.gpg"
+  pre_tasks:
+    - name: Ensure user group exists
+      ansible.builtin.group:
+        name: "{{ pass_user_group }}"
+        state: present
+
+    - name: Ensure user exists
+      ansible.builtin.user:
+        name: "{{ pass_user }}"
+        group: "{{ pass_user_group }}"
+        state: present
+
+    - name: Ensure apt cache update
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 600
+      when: ansible_os_family == 'Debian'
+
+    - name: Ensure required packages installed
+      ansible.builtin.package:
+        name:
+          - git
+          - bash-completion
+        state: present
+
+    - name: Extract git backup
+      ansible.builtin.unarchive:
+        src: "pass-store.tgz"
+        dest: "/tmp"
+        owner: "{{ pass_user }}"
+        group: "{{ pass_user_group }}"
+        mode: "0775"
+
   roles:
+    - role: "kilip.gpg"
     - role: "kilip.pass"

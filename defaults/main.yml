@@ -1,2 +1,9 @@
 ---
 # defaults file for pass
+
+pass_user: ""
+pass_user_group: "{{ pass_user }}"
+pass_home: "/home/{{ pass_user }}/.password-store"
+
+pass_package_name: "pass"
+pass_repo: ""
